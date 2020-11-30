@@ -77,7 +77,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      18 min read
+      19 min read
     
 </span></p>
 
@@ -1251,8 +1251,37 @@ window.onload = wrap_img;
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>As you can see, there is a lot going on. However, at the same time, it is still very close to the logic exposed by this chapter.</p>
 <p>Let's take a look in order of execution.</p>
-<h3 id="init">init<a class="anchor-link" href="#init"> </a></h3><p>I just went with what the instantiation looked like, which meant providing the <code>DataLoaders</code>, then giving a model (this is our simple neural network), the optimization function (our SGD), the loss function (<code>mnist_loss</code> earlier) and finally our metrics (<code>batch_accuracy</code>).</p>
-<p>Our <code>DataLoaders</code> is separated back to our training and validation <code>DataLoader</code>. It was convenient for my immediate needs but maybe there is a saner way to go about it, in a more complex implementation of <code>Learner</code>.</p>
+<h3 id="init">init<a class="anchor-link" href="#init"> </a></h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dls</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">opt_func</span><span class="p">,</span> <span class="n">loss_func</span><span class="p">,</span> <span class="n">metrics</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">train_dl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_dl</span> <span class="o">=</span> <span class="n">dls</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">opt_func</span> <span class="o">=</span> <span class="n">opt_func</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">loss_func</span> <span class="o">=</span> <span class="n">loss_func</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">metrics</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span> <span class="o">=</span> <span class="p">{}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I just went with what the instantiation looked like, which meant providing the <code>DataLoaders</code>, then giving a model (this is our simple neural network), the optimization function (our SGD), the loss function (<code>mnist_loss</code> earlier) and finally our metrics (<code>batch_accuracy</code>).</p>
+<p>Our <code>DataLoaders</code> is separated back to our training and validation <code>DataLoader</code>. It was convenient for my immediate needs but maybe there is a saner way to go about it, in a more complex implementation of Learner.</p>
 <p>I made a bare bone <code>recorder</code> in the form of a dictionary as well. It's clearly not what the recorder actually is in fastai, but all I wanted was a quick and dirty way to plot our metrics later.</p>
 <p>With that explanation being out of the way, let's just initialize our Learner object now:</p>
 
@@ -1393,11 +1422,93 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="The-training-loop">The training loop<a class="anchor-link" href="#The-training-loop"> </a></h3><p>Now we can focus on the training loop itself, whose handling is the purpose of our Learner class.</p>
-<h4 id="fit">fit<a class="anchor-link" href="#fit"> </a></h4><p>It all begins with our <code>fit</code> method, where we give the number of epochs we will go through. This is also where the <em>learning rate</em> is set for the optimization function (again, the SGD we initialize the Learner with).</p>
+<h4 id="fit">fit<a class="anchor-link" href="#fit"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">opt_func</span><span class="o">.</span><span class="n">set_learning_rate</span><span class="p">(</span><span class="n">lr</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_epoch</span><span class="p">()</span>
+        <span class="c1"># mean_accuracy = self.validate_epoch()</span>
+        <span class="c1"># self.recorder[i] = mean_accuracy</span>
+        <span class="c1"># print(mean_accuracy, end=&#39; &#39;)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It all begins with our <code>fit</code> method, where we give the number of epochs we will go through. This is also where the <em>learning rate</em> is set for the optimization function (again, the SGD we initialize the Learner with).</p>
 <p>At the beginning of each iteration, we use <code>train_epoch</code> which we will cover now.</p>
-<h4 id="train_epoch">train_epoch<a class="anchor-link" href="#train_epoch"> </a></h4><p>From there, we are going to loop through all the batches of our <code>train_dl</code>, separated into our xs (remember: our pictures) and ys (the labels)</p>
+<h4 id="train_epoch">train_epoch<a class="anchor-link" href="#train_epoch"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">train_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_dl</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calc_grad</span><span class="p">(</span><span class="n">xb</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+        <span class="c1"># self.opt_func.step()</span>
+        <span class="c1"># self.opt_func.zero_grad()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From there, we are going to loop through all the batches of our <code>train_dl</code>, separated into our xs (remember: our pictures) and ys (the labels)</p>
 <p>First in our loop, <code>calc_grad</code> is called.</p>
-<h4 id="calc_grad">calc_grad<a class="anchor-link" href="#calc_grad"> </a></h4><p>You may have realized, but we are finally mentioning a critical piece of the Gradient Descent process. That is:</p>
+<h4 id="calc_grad">calc_grad<a class="anchor-link" href="#calc_grad"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calc_grad</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span><span class="p">):</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_func</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">yb</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You may have realized, but we are finally mentioning a critical piece of the Gradient Descent process. That is:</p>
 
 </div>
 </div>
@@ -1628,7 +1739,34 @@ window.onload = wrap_img;
 <p>The gradient itself is calculated using <code>backward</code>. Remember when we used <code>requires_grad</code> during parameters initialization? This was in preparation for this moment: the <em>backward propagation</em>!</p>
 <p>Since PyTorch kept in mind our parameters, from our loss it will be able to work its way back to the predictions, then the parameters, to distribute the gradients.</p>
 <p>From there we are done with the current batch and can go back to <code>train_epoch</code>.</p>
-<h4 id="back-to-train_epoch">back to train_epoch<a class="anchor-link" href="#back-to-train_epoch"> </a></h4><p>Now that we have calculated the gradients, we need to update the parameters using our optimization function.</p>
+<h4 id="back-to-train_epoch">back to train_epoch<a class="anchor-link" href="#back-to-train_epoch"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">train_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">xb</span><span class="p">,</span> <span class="n">yb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_dl</span><span class="p">:</span>
+        <span class="c1"># self.calc_grad(xb, yb)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt_func</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opt_func</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we have calculated the gradients, we need to update the parameters using our optimization function.</p>
 <p>This is done using <code>step</code> in our SGD class, thus:</p>
 
 </div>
@@ -1744,7 +1882,61 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>After that, we make sure to reset the gradients with <code>zero_grad</code>, for the reasons explained earlier in the SGD part.</p>
-<h4 id="back-to-fit">back to fit<a class="anchor-link" href="#back-to-fit"> </a></h4><p>Now that we trained our epoch, we can use <code>validate_epoch</code> to get the accuracy of this iteration. The code is self-explanatory, but notice that this is where <code>batch_accuracy</code> is finally useful.</p>
+<h4 id="back-to-fit">back to fit<a class="anchor-link" href="#back-to-fit"> </a></h4>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+    <span class="c1"># self.opt_func.set_learning_rate(lr)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="c1"># self.train_epoch()</span>
+        <span class="n">mean_accuracy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_epoch</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recorder</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_accuracy</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mean_accuracy</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we trained our epoch, we can use <code>validate_epoch</code> to get the accuracy of this iteration. The code is self-explanatory, but notice that this is where <code>batch_accuracy</code> is finally useful.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">validate_epoch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">accs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">metrics</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">xb</span><span class="p">),</span> <span class="n">yb</span><span class="p">)</span> <span class="k">for</span> <span class="n">xb</span><span class="p">,</span><span class="n">yb</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_dl</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">accs</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p>We also put the resulting mean accuracy in our <code>recorder</code> for later.</p>
 <p>And this is pretty much all there is to our training loop. After we repeated the above process for the number of epochs we set, we finally reach this point:</p>
 
