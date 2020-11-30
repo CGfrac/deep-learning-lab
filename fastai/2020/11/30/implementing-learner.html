@@ -77,7 +77,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      19 min read
+      18 min read
     
 </span></p>
 
@@ -511,33 +511,10 @@ window.onload = wrap_img;
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="A-little-reminder-of-the-gradient-descent-process">A little reminder of the gradient descent process<a class="anchor-link" href="#A-little-reminder-of-the-gradient-descent-process"> </a></h2><p>Before we proceed, it will be helpful to remind ourselves of what the <em>gradient descent process</em> looks like. We do this now because the following steps won't come in order (at least until the training loop of our Learner itself is finally discussed).</p>
-<p>If anything, writing this notebook made me realize how great Jeremy Howard and Sylvain Gugger were, at exposing the pieces in a way we could understand easily.</p>
-
-</div>
-</div>
-</div>
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    
-
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Make sure that you understand the process before moving forward. Revisit the course and book content if necessary!</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Implementing-our-loss-and-accuracy-functions">Implementing our loss and accuracy functions<a class="anchor-link" href="#Implementing-our-loss-and-accuracy-functions"> </a></h2><p>Before we implement our classes proper, we could get our loss and batch accuracy functions ready. They are going to be useful way later in our code, but they are short and help use make sense of some of the decisions we took when preparing our <code>DataLoaders</code>.</p>
 <blockquote><p><strong>Tip:</strong> from this point onward, do not hesitate to do a bit of back and forth with later explanations. I will do my best to give pointers in case you are confused.</p>
-<h3 id="The-loss-function">The loss function<a class="anchor-link" href="#The-loss-function"> </a></h3>
 </blockquote>
-<p>First, let's go over our loss function:</p>
+<h3 id="The-loss-function">The loss function<a class="anchor-link" href="#The-loss-function"> </a></h3><p>First, let's go over our loss function:</p>
 
 </div>
 </div>
