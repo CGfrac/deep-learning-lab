@@ -1736,7 +1736,7 @@ window.onload = wrap_img;
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The gradient itself is calculated using <code>backward</code>. Remember when we used <code>requires_grad</code> during parameters initialization? This was in preparation for this moment: the <em>backward propagation</em>!</p>
+<p>The gradient itself is calculated using <code>backward</code>. Remember when we used <code>requires_grad</code> during parameters initialization? This was in preparation for this moment: the <em>backpropagation</em>!</p>
 <p>Since PyTorch kept in mind our parameters, from our loss it will be able to work its way back to the predictions, then the parameters, to distribute the gradients.</p>
 <p>From there we are done with the current batch and can go back to <code>train_epoch</code>.</p>
 <h4 id="back-to-train_epoch">back to train_epoch<a class="anchor-link" href="#back-to-train_epoch"> </a></h4>
