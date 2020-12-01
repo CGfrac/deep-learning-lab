@@ -1737,7 +1737,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The gradient itself is calculated using <code>backward</code>. Remember when we used <code>requires_grad</code> during parameters initialization? This was in preparation for this moment: the <em>backpropagation</em>!</p>
-<p>Since PyTorch kept in mind our parameters, from our loss it will be able to work its way back to the predictions, then the parameters, to distribute the gradients.</p>
+<p>Since PyTorch kept in mind our parameters, from our loss it will be able to work its way back to the predictions, then the parameters, to distribute the gradients. If I followed correctly, it is doing this thanks to the chain rule. I may need to do the math on a simple example later, because I didn't really visualize it (you may want to do that as well).</p>
 <p>From there we are done with the current batch and can go back to <code>train_epoch</code>.</p>
 <h4 id="back-to-train_epoch">back to train_epoch<a class="anchor-link" href="#back-to-train_epoch"> </a></h4>
 </div>
@@ -2144,7 +2144,7 @@ window.onload = wrap_img;
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Wrap-up">Wrap-up<a class="anchor-link" href="#Wrap-up"> </a></h2><p>Playing with the learning rate might yield better results, But the goal today was to have a working Learner and review a few parts of chapter 4, so I'll call it a success.</p>
 <p>I'm pretty excited about reading on the learning rate finder.</p>
-<p>Something I mostly (not to say completely!) glossed over is the reasoning behind using gradients for weight adjustment. If you are still unclear on this aspect, I recommend to reread the relevant parts in the book as they provide a fantastic intuition. Khan Academy is also replete with calculus lessons and exercises if you want to dive deeper in this subject.</p>
+<p>Something I mostly (not to say completely!) glossed over is the reasoning behind using gradients for weight adjustment. If you are still unclear on this aspect, I recommend to reread the relevant parts in the book as they provide a fantastic intuition. Khan Academy is also replete with calculus lessons and exercises if you want to dive deeper into this subject.</p>
 <p>The big picture here is that gradients are making parameter adjustments faster.</p>
 <h2 id="What's-next?">What's next?<a class="anchor-link" href="#What's-next?"> </a></h2><p>There is another, more exciting and potentially much more difficult task ahead: using the principles learned so far to work on the whole MNIST dataset.</p>
 <p>I may use the built-in fastai features to do this work, but I expect things to be very instructive. Today's work was mostly seeing how the pieces fit together. This next project will be about providing useful work.</p>
